@@ -285,7 +285,7 @@ fill_default_server_options(ServerOptions *options)
 
 	/* Portable-specific options */
 	if (options->use_pam == -1)
-		options->use_pam = 0;
+		options->use_pam = 1;
 
 	/* Standard Options */
 	if (options->num_host_key_files == 0) {
@@ -319,7 +319,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->login_grace_time == -1)
 		options->login_grace_time = 120;
 	if (options->permit_root_login == PERMIT_NOT_SET)
-		options->permit_root_login = PERMIT_NO_PASSWD;
+		options->permit_root_login = PERMIT_NO;
 	if (options->ignore_rhosts == -1)
 		options->ignore_rhosts = 1;
 	if (options->ignore_user_known_hosts == -1)
@@ -329,7 +329,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->print_lastlog == -1)
 		options->print_lastlog = 1;
 	if (options->x11_forwarding == -1)
-		options->x11_forwarding = 0;
+		options->x11_forwarding = 1;
 	if (options->x11_display_offset == -1)
 		options->x11_display_offset = 10;
 	if (options->x11_use_localhost == -1)
@@ -371,7 +371,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->gss_strict_acceptor == -1)
 		options->gss_strict_acceptor = 1;
 	if (options->password_authentication == -1)
-		options->password_authentication = 1;
+		options->password_authentication = 0;
 	if (options->kbd_interactive_authentication == -1)
 		options->kbd_interactive_authentication = 0;
 	if (options->challenge_response_authentication == -1)
@@ -418,7 +418,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->max_sessions == -1)
 		options->max_sessions = DEFAULT_SESSIONS_MAX;
 	if (options->use_dns == -1)
-		options->use_dns = 0;
+		options->use_dns = 1;
 	if (options->client_alive_interval == -1)
 		options->client_alive_interval = 0;
 	if (options->client_alive_count_max == -1)
