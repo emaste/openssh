@@ -330,7 +330,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->login_grace_time == -1)
 		options->login_grace_time = 120;
 	if (options->permit_root_login == PERMIT_NOT_SET)
-		options->permit_root_login = PERMIT_NO_PASSWD;
+		options->permit_root_login = PERMIT_NO;
 	if (options->ignore_rhosts == -1)
 		options->ignore_rhosts = 1;
 	if (options->ignore_user_known_hosts == -1)
@@ -340,7 +340,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->print_lastlog == -1)
 		options->print_lastlog = 1;
 	if (options->x11_forwarding == -1)
-		options->x11_forwarding = 0;
+		options->x11_forwarding = 1;
 	if (options->x11_display_offset == -1)
 		options->x11_display_offset = 10;
 	if (options->x11_use_localhost == -1)
@@ -367,8 +367,8 @@ fill_default_server_options(ServerOptions *options)
 		options->pubkey_authentication = 1;
 	if (options->pubkey_auth_options == -1)
 		options->pubkey_auth_options = 0;
-	if (options->kerberos_authentication == -1)
-		options->kerberos_authentication = 0;
+        if (options->kerberos_authentication == -1)
+                options->kerberos_authentication = 0;
 	if (options->kerberos_or_local_passwd == -1)
 		options->kerberos_or_local_passwd = 1;
 	if (options->kerberos_ticket_cleanup == -1)
