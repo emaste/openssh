@@ -65,6 +65,9 @@
 #endif
 #include <grp.h>
 #include <pwd.h>
+#ifdef __FreeBSD__
+#include <resolv.h>
+#endif
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -2129,6 +2132,17 @@ main(int ac, char **av)
 	ssh_signal(SIGQUIT, SIG_DFL);
 	ssh_signal(SIGCHLD, SIG_DFL);
 	ssh_signal(SIGINT, SIG_DFL);
+
+#ifdef __FreeBSD__
+	/*
+	 * Initialize the resolver.  This may not happen automatically
+	 * before privsep chroot().
+	 */
+	if ((_res.options & RES_INIT) == 0) {
+		debug("res_init()");
+		res_init();
+	}
+#endif
 
 	/*
 	 * Register our connection.  This turns encryption off because we do
