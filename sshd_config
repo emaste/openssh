@@ -60,7 +60,7 @@ AuthorizedKeysFile	.ssh/authorized_keys
 #PasswordAuthentication no
 #PermitEmptyPasswords no
 
-# Change to no to disable s/key passwords
+# Change to no to disable PAM authentication
 #ChallengeResponseAuthentication yes
 
 # Kerberos options
