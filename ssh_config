@@ -26,7 +26,7 @@
 #   GSSAPIAuthentication no
 #   GSSAPIDelegateCredentials no
 #   BatchMode no
-#   CheckHostIP yes
+#   CheckHostIP no
 #   AddressFamily any
 #   ConnectTimeout 0
 #   StrictHostKeyChecking ask
