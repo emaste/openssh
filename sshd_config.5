@@ -1334,6 +1334,13 @@ or
 .Cm no .
 The default is
 .Cm no .
+Note that if
+.Cm ChallengeResponseAuthentication
+and
+.Cm UsePAM
+are both
+.Cm yes ,
+this setting may be overridden by the PAM policy.
 .Pp
 If this option is set to
 .Cm prohibit-password
@@ -1676,7 +1683,7 @@ to the
 .Xr blacklistd 8
 daemon.
 The default is
-.Dq no .
+.Cm no .
 For forward compatibility with an upcoming
 .Xr blacklistd
 rename, the
