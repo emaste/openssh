@@ -2175,7 +2175,7 @@ fill_default_options(Options * options)
 	if (options->batch_mode == -1)
 		options->batch_mode = 0;
 	if (options->check_host_ip == -1)
-		options->check_host_ip = 1;
+		options->check_host_ip = 0;
 	if (options->strict_host_key_checking == -1)
 		options->strict_host_key_checking = SSH_STRICT_HOSTKEY_ASK;
 	if (options->compression == -1)
@@ -2239,8 +2239,14 @@ fill_default_options(Options * options)
 		options->rekey_limit = 0;
 	if (options->rekey_interval == -1)
 		options->rekey_interval = 0;
+#if HAVE_LDNS
+	if (options->verify_host_key_dns == -1)
+		/* automatically trust a verified SSHFP record */
+		options->verify_host_key_dns = 1;
+#else
 	if (options->verify_host_key_dns == -1)
 		options->verify_host_key_dns = 0;
+#endif
 	if (options->server_alive_interval == -1)
 		options->server_alive_interval = 0;
 	if (options->server_alive_count_max == -1)
