@@ -538,6 +538,8 @@ If the option is set to
 .Cm no
 (the default),
 the check will not be executed.
+The default is
+.Cm no .
 .It Cm Ciphers
 Specifies the ciphers allowed and their order of preference.
 Multiple ciphers must be comma-separated.
@@ -2112,7 +2114,10 @@ need to confirm new host keys according to the
 .Cm StrictHostKeyChecking
 option.
 The default is
-.Cm no .
+.Cm yes
+if compiled with LDNS and
+.Cm no
+otherwise.
 .Pp
 See also
 .Sx VERIFYING HOST KEYS
