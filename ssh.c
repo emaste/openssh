@@ -896,14 +896,14 @@ main(int ac, char **av)
 			}
 			break;
 		case 'V':
-			fprintf(stderr, "%s, %s\n",
-			    SSH_RELEASE,
-#ifdef WITH_OPENSSL
-			    OpenSSL_version(OPENSSL_VERSION)
-#else
-			    "without OpenSSL"
-#endif
-			);
+			if (options.version_addendum &&
+			    *options.version_addendum != '\0')
+				fprintf(stderr, "%s %s, %s\n", SSH_RELEASE,
+				    options.version_addendum,
+				    OPENSSL_VERSION_STRING);
+			else
+				fprintf(stderr, "%s, %s\n", SSH_RELEASE,
+				    OPENSSL_VERSION_STRING);
 			if (opt == 'V')
 				exit(0);
 			break;
@@ -1165,13 +1165,8 @@ main(int ac, char **av)
 	    !use_syslog);
 
 	if (debug_flag)
-		logit("%s, %s", SSH_RELEASE,
-#ifdef WITH_OPENSSL
-		    OpenSSL_version(OPENSSL_VERSION)
-#else
-		    "without OpenSSL"
-#endif
-		);
+		/* version_addendum is always NULL at this point */
+		logit("%s, %s", SSH_RELEASE, OPENSSL_VERSION_STRING);
 
 	/* Parse the configuration files */
 	process_config_files(host_arg, pw, 0, &want_final_pass);

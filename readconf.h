@@ -163,6 +163,8 @@ typedef struct {
 	char   *hostbased_key_types;
 	char   *pubkey_key_types;
 
+	char   *version_addendum; /* Appended to SSH banner */
+
 	char   *jump_user;
 	char   *jump_host;
 	int	jump_port;
