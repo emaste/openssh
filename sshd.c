@@ -89,6 +89,13 @@
 #include <prot.h>
 #endif
 
+#ifdef __FreeBSD__
+#if defined(GSSAPI) && defined(HAVE_GSSAPI_GSSAPI_H)
+#include <gssapi/gssapi.h>
+#elif defined(GSSAPI) && defined(HAVE_GSSAPI_H)
+#include <gssapi.h>
+#endif
+#endif
 #include "xmalloc.h"
 #include "ssh.h"
 #include "ssh2.h"
@@ -2147,6 +2154,18 @@ main(int ac, char **av)
 	ssh_signal(SIGQUIT, SIG_DFL);
 	ssh_signal(SIGCHLD, SIG_DFL);
 	ssh_signal(SIGINT, SIG_DFL);
+#ifdef GSSAPI
+	/*
+	 * Force GSS-API to parse its configuration and load any
+	 * mechanism plugins.
+	 */
+	{
+		gss_OID_set mechs;
+		OM_uint32 minor_status;
+		gss_indicate_mechs(&minor_status, &mechs);
+		gss_release_oid_set(&minor_status, &mechs);
+	}
+#endif
 
 #ifdef __FreeBSD__
 	/*
