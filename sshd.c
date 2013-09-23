@@ -86,11 +86,15 @@
 #include <prot.h>
 #endif
 
-#include "xmalloc.h"
+#ifdef __FreeBSD__
 #include <resolv.h>
-#ifdef GSSAPI
+#if defined(GSSAPI) && defined(HAVE_GSSAPI_GSSAPI_H)
 #include <gssapi/gssapi.h>
+#elif defined(GSSAPI) && defined(HAVE_GSSAPI_H)
+#include <gssapi.h>
 #endif
+#endif
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh2.h"
 #include "sshpty.h"
