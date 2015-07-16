@@ -1382,6 +1382,23 @@ main(int ac, char **av)
 	    (unsigned long long)pw->pw_uid);
 	keyalias = options.host_key_alias ? options.host_key_alias : host_arg;
 
+	/* Find canonic host name. */
+	if (strchr(host, '.') == 0) {
+		struct addrinfo hints;
+		struct addrinfo *ai = NULL;
+		int errgai;
+		memset(&hints, 0, sizeof(hints));
+		hints.ai_family = options.address_family;
+		hints.ai_flags = AI_CANONNAME;
+		hints.ai_socktype = SOCK_STREAM;
+		errgai = getaddrinfo(host, NULL, &hints, &ai);
+		if (errgai == 0) {
+			if (ai->ai_canonname != NULL)
+				host = xstrdup(ai->ai_canonname);
+			freeaddrinfo(ai);
+		}
+	}
+
 	conn_hash_hex = ssh_connection_hash(thishost, host, portstr,
 	    options.user);
 
