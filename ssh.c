@@ -1438,6 +1438,23 @@ main(int ac, char **av)
 	cinfo->conn_hash_hex = ssh_connection_hash(cinfo->thishost,
 	    cinfo->remhost, cinfo->portstr, cinfo->remuser, cinfo->jmphost);
 
+	/* Find canonic host name. */
+	if (strchr(host, '.') == 0) {
+		struct addrinfo hints;
+		struct addrinfo *ai = NULL;
+		int errgai;
+		memset(&hints, 0, sizeof(hints));
+		hints.ai_family = options.address_family;
+		hints.ai_flags = AI_CANONNAME;
+		hints.ai_socktype = SOCK_STREAM;
+		errgai = getaddrinfo(host, NULL, &hints, &ai);
+		if (errgai == 0) {
+			if (ai->ai_canonname != NULL)
+				host = xstrdup(ai->ai_canonname);
+			freeaddrinfo(ai);
+		}
+	}
+
 	/*
 	 * Expand tokens in arguments. NB. LocalCommand is expanded later,
 	 * after port-forwarding is set up, so it may pick up any local
