@@ -317,6 +317,13 @@ static struct {
 	{ "securitykeyprovider", oSecurityKeyProvider },
 	{ "versionaddendum", oVersionAddendum },
 
+	{ "hpndisabled", oDeprecated },
+	{ "hpnbuffersize", oDeprecated },
+	{ "tcprcvbufpoll", oDeprecated },
+	{ "tcprcvbuf", oDeprecated },
+	{ "noneenabled", oUnsupported },
+	{ "noneswitch", oUnsupported },
+
 	{ NULL, oBadOption }
 };
 
