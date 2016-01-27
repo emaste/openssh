@@ -1690,8 +1690,8 @@ the resolved host name for the remote IP address maps back to the
 very same IP address.
 .Pp
 If this option is set to
-.Cm no
-(the default) then only addresses and not host names may be used in
+.Cm no ,
+then only addresses and not host names may be used in
 .Pa ~/.ssh/authorized_keys
 .Cm from
 and
@@ -1699,6 +1699,8 @@ and
 .Cm Match
 .Cm Host
 directives.
+The default is
+.Dq yes .
 .It Cm UsePAM
 Enables the Pluggable Authentication Module interface.
 If set to
