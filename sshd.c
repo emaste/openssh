@@ -123,6 +123,7 @@
 #include "version.h"
 #include "ssherr.h"
 #include "sk-api.h"
+#include "blacklist_client.h"
 
 /* Re-exec fds */
 #define REEXEC_DEVCRYPTO_RESERVED_FD	(STDERR_FILENO + 1)
@@ -373,7 +374,9 @@ grace_alarm_handler(int sig)
 		kill(0, SIGTERM);
 	}
 
+	BLACKLIST_NOTIFY(BLACKLIST_AUTH_FAIL, "ssh");
 	/* XXX pre-format ipaddr/port so we don't need to access active_state */
+
 	/* Log error and exit. */
 	sigdie("Timeout before authentication for %s port %d",
 	    ssh_remote_ipaddr(the_active_state),
@@ -2182,6 +2185,8 @@ main(int ac, char **av)
 	if ((loginmsg = sshbuf_new()) == NULL)
 		fatal("%s: sshbuf_new failed", __func__);
 	auth_debug_reset();
+
+	BLACKLIST_INIT();
 
 	if (use_privsep) {
 		if (privsep_preauth(ssh) == 1)
