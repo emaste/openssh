@@ -197,6 +197,7 @@ initialize_server_options(ServerOptions *options)
 	options->fingerprint_hash = -1;
 	options->disable_forwarding = -1;
 	options->expose_userauth_info = -1;
+	options->use_blacklist = -1;
 }
 
 /* Returns 1 if a string option is unset or set to "none" or 0 otherwise. */
@@ -445,6 +446,8 @@ fill_default_server_options(ServerOptions *options)
 		options->expose_userauth_info = 0;
 	if (options->sk_provider == NULL)
 		options->sk_provider = xstrdup("internal");
+	if (options->use_blacklist == -1)
+		options->use_blacklist = 0;
 
 	assemble_algorithms(options);
 
@@ -523,6 +526,7 @@ typedef enum {
 	sStreamLocalBindMask, sStreamLocalBindUnlink,
 	sAllowStreamLocalForwarding, sFingerprintHash, sDisableForwarding,
 	sExposeAuthInfo, sRDomain, sPubkeyAuthOptions, sSecurityKeyProvider,
+	sUseBlacklist,
 	sDeprecated, sIgnore, sUnsupported
 } ServerOpCodes;
 
@@ -682,6 +686,9 @@ static struct {
 	{ "rdomain", sRDomain, SSHCFG_ALL },
 	{ "casignaturealgorithms", sCASignatureAlgorithms, SSHCFG_ALL },
 	{ "securitykeyprovider", sSecurityKeyProvider, SSHCFG_GLOBAL },
+	{ "useblacklist", sUseBlacklist, SSHCFG_GLOBAL },
+	{ "useblocklist", sUseBlacklist, SSHCFG_GLOBAL }, /* alias */
+
 	{ NULL, sBadOption, 0 }
 };
 
@@ -2403,6 +2410,10 @@ process_server_config_line_depth(ServerOptions *options, char *line,
 			*charptr = xstrdup(arg);
 		break;
 
+	case sUseBlacklist:
+		intptr = &options->use_blacklist;
+		goto parse_flag;
+
 	case sDeprecated:
 	case sIgnore:
 	case sUnsupported:
@@ -2880,6 +2891,7 @@ dump_config(ServerOptions *o)
 	dump_cfg_fmtint(sStreamLocalBindUnlink, o->fwd_opts.streamlocal_bind_unlink);
 	dump_cfg_fmtint(sFingerprintHash, o->fingerprint_hash);
 	dump_cfg_fmtint(sExposeAuthInfo, o->expose_userauth_info);
+	dump_cfg_fmtint(sUseBlacklist, o->use_blacklist);
 
 	/* string arguments */
 	dump_cfg_string(sPidFile, o->pid_file);
