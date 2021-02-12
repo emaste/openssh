@@ -1,0 +1,13 @@
+freebsd_instance:
+  image: freebsd-13-0-release-amd64
+  cpu: 1
+
+task:
+  install_script:
+  - pkg install -y autoconf automake
+  build_script:
+  - autoreconf
+  - ./configure
+  - make
+  test_script:
+  - TEST_SSH_UNSAFE_PERMISSIONS=1 HOME=/root USER=root make tests
