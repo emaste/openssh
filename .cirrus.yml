@@ -1,0 +1,12 @@
+freebsd_instance:
+  # image: freebsd-12-1-stable-amd64
+  # We need a newer image to install llvm11
+  image_family: freebsd-12-1-snap
+
+task:
+  install_script:
+  - pkg install -y autoconf
+  script:
+  - autoreconf
+  - ./configure
+  - make
