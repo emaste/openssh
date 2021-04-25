@@ -24,6 +24,7 @@
 #include <sys/resource.h>
 #include <sys/capsicum.h>
 
+#include <capsicum_helpers.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -69,6 +70,8 @@ ssh_sandbox_child(struct ssh_sandbox *box)
 {
 	struct rlimit rl_zero;
 	cap_rights_t rights;
+
+	caph_cache_tzdata();
 
 	rl_zero.rlim_cur = rl_zero.rlim_max = 0;
 
