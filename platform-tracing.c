@@ -32,6 +32,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "log.h"
 
@@ -42,7 +43,7 @@ platform_disable_tracing(int strict)
 	/* On FreeBSD, we should make this process untraceable */
 	int disable_trace = PROC_TRACE_CTL_DISABLE;
 
-	if (procctl(P_PID, 0, PROC_TRACE_CTL, &disable_trace) && strict)
+	if (procctl(P_PID, getpid(), PROC_TRACE_CTL, &disable_trace) && strict)
 		fatal("unable to make the process untraceable: %s",
 		    strerror(errno));
 #endif
