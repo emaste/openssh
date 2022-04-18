@@ -3280,11 +3280,11 @@ if test "x$enable_sk" = "xyes" -a "x$enable_sk_internal" != "xno" ; then
 		LIBFIDO2=`$PKGCONFIG --libs libfido2`
 		CPPFLAGS="$CPPFLAGS `$PKGCONFIG --cflags libfido2`"
 	else
-		LIBFIDO2="-lfido2 -lcbor"
+		LIBFIDO2="-lprivatefido2 -lprivatecbor"
 	fi
 	OTHERLIBS=`echo $LIBFIDO2 | sed 's/-lfido2//'`
 	fido2_error=
-	AC_CHECK_LIB([fido2], [fido_init],
+	AC_CHECK_LIB([privatefido2], [fido_init],
 		[ ],
 		[ fido2_error="missing/unusable libfido2" ],
 		[ $OTHERLIBS ]
